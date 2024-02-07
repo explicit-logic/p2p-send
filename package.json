@@ -1,9 +1,9 @@
 {
-  "name": "p2p-send",
+  "name": "quiz",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8090",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
