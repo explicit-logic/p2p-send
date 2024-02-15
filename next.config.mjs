@@ -1,5 +1,10 @@
+import path from 'node:path';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverRuntimeConfig: {
+    questionsDirectory: path.join(process.cwd(), './data/questions'),
+  },
   /**
    * Enable static exports for the App Router.
    *

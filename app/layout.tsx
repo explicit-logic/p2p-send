@@ -5,7 +5,10 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Quiz',
+  title: {
+    default: 'Quiz',
+    template: '%s | Quiz',
+  },
   description: '',
 };
 
