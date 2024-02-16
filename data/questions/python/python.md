@@ -1,7 +1,11 @@
 ---
-title: My Question 1
+title: Python
 locale: en
 ---
+
+
+![](./python.jpeg)
+
 
 # Python Lists
 

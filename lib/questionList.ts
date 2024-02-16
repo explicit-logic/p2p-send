@@ -6,16 +6,10 @@ const { questionsDirectory }  = serverRuntimeConfig;
 
 export async function getList() {
   const dirContent = await fs.readdir(questionsDirectory, { withFileTypes: true });
-  const files = dirContent
-    .filter((file) => file.isFile() && file.name.endsWith('.md'))
-    .map((file) => file.name)
+  const directories = dirContent
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name)
     .sort();
 
-  return files;
+  return directories;
 }
-
-export async function getListNames() {
-  const files = await getList();
-  return files.map((file) => file.replace(/\.md$/, ''));
-}
-

@@ -1,5 +1,7 @@
 import path from 'node:path';
 
+import config from './config.mjs';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   serverRuntimeConfig: {
@@ -16,7 +18,7 @@ const nextConfig = {
    *
    * @see https://nextjs.org/docs/app/api-reference/next-config-js/basePath
    */
-  basePath: '/quiz-1',
+  basePath: config.basePath,
   /**
    * Disable server-based image optimization. Next.js does not support
    * dynamic features with static exports.

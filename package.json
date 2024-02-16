@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npm run copyimages",
     "dev": "next dev -p 8090",
+    "prebuild": "npm run copyimages",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "copyimages": "node ./bin/copy-images.mjs"
   },
   "dependencies": {
+    "@pondorasti/remark-img-links": "^1.0.8",
     "gray-matter": "^4.0.3",
     "next": "14.1.0",
     "react": "^18",

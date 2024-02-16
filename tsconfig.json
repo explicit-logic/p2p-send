@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", ".eslintrc.js", "next.config.mjs", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.js"],
+  "include": ["next-env.d.ts", ".eslintrc.js", "**/*.mjs", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.js"],
   "exclude": ["node_modules", ".next", ".vercel", "out"]
 }

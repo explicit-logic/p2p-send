@@ -1,8 +1,8 @@
 import { getFile, getHtml } from '@/lib/questionItem';
-import { getListNames } from '@/lib/questionList';
+import { getList } from '@/lib/questionList';
 
 export async function generateStaticParams() {
-  const slugs = await getListNames();
+  const slugs = await getList();
   const params = slugs.map((slug) => ({ slug }));
 
   return params;
@@ -26,8 +26,8 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const file = await getFile(params.slug);
-  const { data, content } = file;
-  const html = await getHtml(content);
+  const { data, content: markdown } = file;
+  const html = await getHtml({ markdown, slug: params.slug });
 
   return (
     <div className="container mx-auto py-5">

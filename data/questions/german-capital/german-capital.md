@@ -1,9 +1,4 @@
 ---
-primaryColor: steelblue
-secondaryColor: '#e8e8e8'
-textColor: black
-shuffleQuestions: false
-shuffleAnswers: true
 locale: en
 ---
 
