@@ -4,7 +4,7 @@ import getConfig from 'next/config';
 const { serverRuntimeConfig } = getConfig();
 const { questionsDirectory }  = serverRuntimeConfig;
 
-export async function getList() {
+export async function getSlugs() {
   const dirContent = await fs.readdir(questionsDirectory, { withFileTypes: true });
   const directories = dirContent
     .filter(dirent => dirent.isDirectory())

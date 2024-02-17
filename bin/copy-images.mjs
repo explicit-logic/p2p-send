@@ -1,31 +1,38 @@
 import fs from 'fs';
 import path from 'path';
 
+import config from '../next.config.mjs';
+
+const { serverRuntimeConfig } = config ?? {};
+const { questionsDirectory }  = serverRuntimeConfig;
+
 const fsPromises = fs.promises;
 const targetDir = './public/images';
-const postsDir = './data/questions';
 
 async function copyImagesToPublic(images, slug) {
   for (const image of images) {
     await fsPromises.copyFile(
-      `${postsDir}/${slug}/${image}`,
+      `${questionsDirectory}/${slug}/${image}`,
       `${targetDir}/${slug}/${image}`
     );
   }
 }
 
 async function createPostImageFoldersForCopy() {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  if (!fs.existsSync(questionsDirectory)) return;
   // Get every post folder: post-one, post-two etc.
-  const postSlugs = await fsPromises.readdir(postsDir);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const questionSlugs = await fsPromises.readdir(questionsDirectory);
 
-  for (const slug of postSlugs) {
+  for (const slug of questionSlugs) {
     const allowedImageFileExtensions = ['.png', '.jpg', '.jpeg', '.gif'];
 
-    // Read all files inside current post folder
-    const postDirFiles = await fsPromises.readdir(`${postsDir}/${slug}`);
+    // Read all files inside current question folder
+    const questionDirFiles = await fsPromises.readdir(`${questionsDirectory}/${slug}`);
 
     // Filter out files with allowed file extension (images)
-    const images = postDirFiles.filter(file =>
+    const images = questionDirFiles.filter(file =>
       allowedImageFileExtensions.includes(path.extname(file)),
     );
 
