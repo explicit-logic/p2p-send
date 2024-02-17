@@ -7,7 +7,6 @@ const imgDirInsidePublic = 'images';
 
 type Image = { url: string, type: string };
 
-
 export default function transformImgSrc({ slug }: { slug: string }) {
   return (tree: Node) => {
     visit(tree, 'paragraph', (node: Node) => {

@@ -30,14 +30,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const html = await getHtml({ markdown, slug: params.slug });
 
   return (
-    <div className="container mx-auto py-5">
-      {/* <div className="flex justify-center">
-        <h1 className="text-4xl font-bold">{data.title}</h1>
-      </div> */}
-      <div className="flex flex-col justify-center items-center space-y-4">
-        <h1 className="text-4xl font-bold">{data.title}</h1>
+    <main className="flex min-h-screen flex-col items-center justify-between py-5">
+      <div className="space-y-4">
+        {/* <h1 className="font-bold text-center text-3xl">{data.title}</h1> */}
+        <h1 className="font-bold text-3xl text-center tracking-tight leading-none text-gray-900 dark:text-white ">{data.title}</h1>
         <div dangerouslySetInnerHTML={{ __html: html }} />
       </div>
-    </div>
+    </main>
   );
 }

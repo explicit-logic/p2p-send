@@ -1,9 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-// ts-ignore
-// import imgLinks from '@pondorasti/remark-img-links';
-
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
@@ -33,7 +30,7 @@ export async function getHtml({ markdown, slug }: { markdown: string, slug: stri
     .use(remarkGfm) // Enable GitHub Flavored Markdown
 
     .use(transformImgSrc, { slug }) // Transform image src to use next/image
-    
+
     .use(remarkRehype) // Turn markdown syntax tree to HTML syntax tree, ignoring embedded HTML
     .use(rehypeStringify) // Serialize HTML syntax tree
     .process(markdown);

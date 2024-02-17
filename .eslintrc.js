@@ -37,8 +37,11 @@ module.exports = {
     'next/core-web-vitals'
   ],
   rules: {
+    'comma-spacing': ['error', { before: false, after: true }],
     indent: ['error', 2],
+    'no-trailing-spaces': 'error',
     semi: 2,
+    'key-spacing': ['error', { beforeColon: false, afterColon: true, mode: 'strict' }],
     quotes: [2, 'single'],
     'quote-props': ['error', 'as-needed'],
   }
