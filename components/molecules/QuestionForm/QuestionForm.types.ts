@@ -1,13 +1,14 @@
 import type { FormikConfig } from 'formik';
+import type { TokensList } from 'marked';
 
-export type Values = Record<string, string>;
+export type Values = object;
 
 export type ContainerProps = {
-  markdown: string;
+  tokensList: TokensList;
 };
 
 export type ViewProps = {
-  markdown: string;
+  tokensList: TokensList;
   goBack: () => void;
   onSubmit: FormikConfig<Values>['onSubmit'];
 };

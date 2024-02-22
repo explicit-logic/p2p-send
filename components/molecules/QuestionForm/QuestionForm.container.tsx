@@ -16,7 +16,7 @@ import { useRouter, useParams } from 'next/navigation';
 import type { ContainerProps } from './QuestionForm.types';
 
 function QuestionFormContainer(props: ContainerProps) {
-  const { markdown } = props;
+  const { tokensList } = props;
 
   const { slug } = useParams<{ slug: string }>();
 
@@ -31,8 +31,6 @@ function QuestionFormContainer(props: ContainerProps) {
   }
 
   function onSubmit(/* values: Values */) {
-    console.log(markdown);
-
     // const room = searchParams.get('r');
 
     const nextSlug = getNextSlug(slug);
@@ -42,7 +40,7 @@ function QuestionFormContainer(props: ContainerProps) {
     router.replace(`/questions/${nextSlug}`);
   }
 
-  return <QuestionFormView goBack={goBack} markdown={markdown} onSubmit={onSubmit} />;
+  return <QuestionFormView goBack={goBack} tokensList={tokensList} onSubmit={onSubmit} />;
 }
 
 export default QuestionFormContainer;

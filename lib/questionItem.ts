@@ -1,17 +1,13 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-
-import remarkRehype from 'remark-rehype';
-import rehypeStringify from 'rehype-stringify';
-import remarkGfm from 'remark-gfm';
-import remarkParse from 'remark-parse';
-import { unified } from 'unified';
-
+import { Marked } from 'marked';
 import matter from 'gray-matter';
 
 import getConfig from 'next/config';
 
-import transformImgSrc from '../plugins/transform-img-src';
+import type { TokensList } from 'marked';
+
+import { walkTokens } from '../plugins/walkTokens';
 
 const { serverRuntimeConfig } = getConfig();
 const { questionsDirectory }  = serverRuntimeConfig;
@@ -24,18 +20,15 @@ export async function getFile(slug: string) {
   return file;
 }
 
-export async function getHtml({ markdown, slug }: { markdown: string, slug: string }): Promise<string> {
-  const file = await unified()
-    .use(remarkParse) // Parse markdown content to a syntax tree
-    .use(remarkGfm) // Enable GitHub Flavored Markdown
+export function parse({ markdown, slug }: { markdown: string, slug: string }): TokensList {
+  const marked = new Marked();
 
-    .use(transformImgSrc, { slug }) // Transform image src to use next/image
+  const tokens = marked.lexer(markdown, {
+    breaks: false,
+    gfm: true,
+  });
 
-    .use(remarkRehype) // Turn markdown syntax tree to HTML syntax tree, ignoring embedded HTML
-    .use(rehypeStringify) // Serialize HTML syntax tree
-    .process(markdown);
+  walkTokens({ slug, tokens });
 
-  const html = String(file);
-
-  return html;
+  return tokens;
 }
