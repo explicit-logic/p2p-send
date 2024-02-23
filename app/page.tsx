@@ -1,5 +1,6 @@
 // Components
-import HeroForm from '@/components/molecules/HeroForm';
+import HeroForm from '@/components/organisms/HeroForm';
+import TopBar from '@/components/molecules/TopBar';
 // import Link from 'next/link';
 
 // Lib
@@ -12,10 +13,7 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between">
       <section className="bg-white dark:bg-gray-900">
         <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-          <span className="inline-flex justify-between items-center pl-4 py-1 px-1 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white" role="alert">
-            <span className="text-sm font-medium">Connection is</span>
-            <span className="ml-3 text-xs bg-red-50 rounded-full text-white px-4 py-1.5">Live</span>
-          </span>
+          <TopBar />
           <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Simple Quiz</h1>
           <p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">Take this quiz to test your knowledge</p>
           <HeroForm slugs={slugs}/>

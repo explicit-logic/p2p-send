@@ -3,7 +3,7 @@ import { getFile, parse } from '@/lib/questionItem';
 import { getSlugs } from '@/lib/questionSlugs';
 
 // Components
-import QuestionForm from '@/components/molecules/QuestionForm';
+import QuestionForm from '@/components/organisms/QuestionForm';
 
 export async function generateStaticParams() {
   const slugs = await getSlugs();
@@ -29,9 +29,10 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const file = await getFile(params.slug);
+  const { slug } = params;
+  const file = await getFile(slug);
   const { data, content: markdown } = file;
-  const tokensList = parse({ markdown, slug: params.slug });
+  const tokensList = parse({ markdown, slug });
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between py-5">

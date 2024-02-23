@@ -2,7 +2,7 @@
 import { memo } from 'react';
 import { Formik, Form } from 'formik';
 // import * as Yup from 'yup';
-import Markdown from '@/components/organisms/Markdown';
+import Markdown from '@/components/molecules/Markdown';
 
 // Constants
 // import { FIELDS } from './constants';

@@ -1,4 +1,10 @@
+// Modules
+import { ThemeModeScript } from 'flowbite-react';
+
+// Types
 import type { Metadata } from 'next';
+
+// Styles
 // import { Inter } from 'next/font/google';
 import './globals.css';
 
@@ -18,7 +24,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html>
+      <head>
+        <ThemeModeScript mode="auto" />
+      </head>
       <body className="bg-white dark:bg-gray-900">{children}</body>
     </html>
   );
