@@ -53,6 +53,7 @@ const config: Config = {
     }
   },
   plugins: [
+    require('flowbite-typography'),
     require('flowbite/plugin'),
   ],
 };
