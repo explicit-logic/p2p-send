@@ -1,13 +1,17 @@
 import type { ElementType, ReactElement, ReactNode } from 'react';
-import type { Token, Tokens, TokensList } from 'marked';
 
 export type HeadingLevels = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type ParserTokens = Token[] | TokensList;
 
+export type Parse = (tokens: ParserTokens) => ReactNode;
+
 export type Props = {
+  render: RenderHandler;
   tokensList: TokensList;
 };
+
+export type RenderHandler = (params: RenderersOptions) => Partial<Renderers>;
 
 export type Renderers = {
   space: (token: Tokens.Space) => ReactNode;
@@ -31,12 +35,9 @@ export type Renderers = {
 };
 
 export type RenderersOptions = {
-  baseURL?: string;
   codespan: (text: string, lang?: string | null) => ReactNode;
   getId: () => string;
   h: <T extends ElementType>(el: T, children?: ReactNode, props?: object) => ReactElement;
-  joinBase: (href: string, base?: string) => string;
-  openLinksInNewTab?: boolean;
-  parse: (tokens: ParserTokens) => ReactNode;
+  parse: Parse;
   unescape: (text: string) => string;
 };

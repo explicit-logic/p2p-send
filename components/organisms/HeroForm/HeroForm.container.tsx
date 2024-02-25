@@ -1,6 +1,6 @@
 'use client';
 // Lib
-import { setSlugs } from '@/lib/slugStorage';
+import { setSlugs } from '@/lib/client/slugStorage';
 
 // Components
 import HeroFormView from './HeroForm.view';

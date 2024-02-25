@@ -1,8 +1,8 @@
 // Types
-import type { Renderers, RenderersOptions, HeadingLevels } from './Markdown.types';
+import type { Renderers, RenderersOptions, HeadingLevels } from './markdownRender.types';
 
 export function getDefaultRenderers(
-  { h, parse, codespan, unescape, joinBase, baseURL, openLinksInNewTab }: RenderersOptions
+  { h, parse, codespan, unescape }: RenderersOptions
 ): Renderers {
   return {
     space: () => null,
@@ -55,15 +55,10 @@ export function getDefaultRenderers(
     del: (token) => h('del', parse(token.tokens)),
     codespan: (token) => codespan(unescape(token.text), null),
     link: (token) => {
-      const url = joinBase(token.href, baseURL);
-      const target = openLinksInNewTab ? '_blank' : null;
-
-      return h('a', parse(token.tokens), { href: url, target });
+      return h('a', parse(token.tokens), { href: token.href, target: '_blank' });
     },
     image: (token) => {
-      const url = joinBase(token.href, baseURL);
-
-      return h('img', null, { src: url, alt: token.text, title: token.title });
+      return h('img', null, { src: token.href, alt: token.text, title: token.title });
     },
     br: () => h('br'),
     escape: (token) => unescape(token.text),

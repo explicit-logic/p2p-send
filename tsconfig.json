@@ -22,6 +22,7 @@
       "@/*": ["./*"]
     }
   },
+  "typeRoots": ["./types", "./node_modules/@types"],
   "include": ["next-env.d.ts", ".eslintrc.js", "**/*.mjs", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.js"],
   "exclude": ["node_modules", ".next", ".vercel", "out"]
 }

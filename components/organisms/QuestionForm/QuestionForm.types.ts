@@ -1,7 +1,9 @@
-import type { FormikConfig } from 'formik';
+import type { FormikContextType, FormikConfig } from 'formik';
 import type { TokensList } from 'marked';
 
-export type Values = object;
+export type Values = Record<string, string | boolean>;
+
+export type Formik = FormikContextType<Values>;
 
 export type ContainerProps = {
   tokensList: TokensList;
@@ -10,7 +12,7 @@ export type ContainerProps = {
 export type ViewProps = {
   tokensList: TokensList;
   goBack: () => void;
-  onSubmit: FormikConfig<Values>['onSubmit'];
+  formik: Formik;
 };
 
 export type OnSubmit = FormikConfig<Values>['onSubmit'];

@@ -1,12 +1,18 @@
 'use client';
+
+import { useFormik } from 'formik';
+
 // Lib
-import { getNextSlug, getPreviousSlug } from '@/lib/slugStorage';
+import { getNextSlug, getPreviousSlug } from '@/lib/client/slugStorage';
 
 // Components
 import QuestionFormView from './QuestionForm.view';
 
 // Constants
 // import { FIELDS } from './constants';
+
+// Helpers
+import { getValidationSchema } from './helpers/getValidationSchema';
 
 // Hooks
 import { useRouter, useParams } from 'next/navigation';
@@ -21,6 +27,14 @@ function QuestionFormContainer(props: ContainerProps) {
   const { slug } = useParams<{ slug: string }>();
 
   const router = useRouter();
+
+  const validationSchema = getValidationSchema(/* tokensList */);
+
+  const formik = useFormik({
+    initialValues: {},
+    onSubmit,
+    validationSchema,
+  });
 
   function goBack() {
     const previousSlug = getPreviousSlug(slug);
@@ -40,7 +54,7 @@ function QuestionFormContainer(props: ContainerProps) {
     router.replace(`/questions/${nextSlug}`);
   }
 
-  return <QuestionFormView goBack={goBack} tokensList={tokensList} onSubmit={onSubmit} />;
+  return <QuestionFormView formik={formik} goBack={goBack} tokensList={tokensList} />;
 }
 
 export default QuestionFormContainer;

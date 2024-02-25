@@ -2,12 +2,9 @@
 title: Python
 locale: en
 ---
-
-
-![](./python.jpeg)
-
-
 # Python Lists
+
+![High-level programming language](./python.jpg)
 
 What is the value of `x[2]`?
 
@@ -19,7 +16,7 @@ x[2] = 4
 print(x[2])
 ```
 
-- [ ] 1
-- [ ] 2
-- [ ] 3
-- [x] 4
+- [ ] One
+- [ ] Two
+- [ ] Three
+- [x] Four

@@ -7,7 +7,7 @@ import getConfig from 'next/config';
 
 import type { TokensList } from 'marked';
 
-import { walkTokens } from '../plugins/walkTokens';
+import { walkTokens } from '../../plugins/walkTokens';
 
 const { serverRuntimeConfig } = getConfig();
 const { questionsDirectory }  = serverRuntimeConfig;

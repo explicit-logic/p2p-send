@@ -1,9 +1,12 @@
+// Modules
+import dynamic from 'next/dynamic';
+
 // Lib
-import { getFile, parse } from '@/lib/questionItem';
-import { getSlugs } from '@/lib/questionSlugs';
+import { getFile, parse } from '@/lib/server/questionItem';
+import { getSlugs } from '@/lib/server/questionSlugs';
 
 // Components
-import QuestionForm from '@/components/organisms/QuestionForm';
+const QuestionForm = dynamic(() => import('@/components/organisms/QuestionForm'), { ssr: false });
 
 export async function generateStaticParams() {
   const slugs = await getSlugs();
@@ -31,14 +34,15 @@ export async function generateMetadata({
 export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const file = await getFile(slug);
-  const { data, content: markdown } = file;
-  const tokensList = parse({ markdown, slug });
+  const { content: markdown } = file;
+  const tokensList: TokensList = parse({ markdown, slug });
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between py-5">
-      <div className="space-y-6">
-        <h1 className="font-bold text-3xl text-center tracking-tight leading-none text-gray-900 dark:text-white ">{data.title}</h1>
-        <QuestionForm tokensList={tokensList} />
+    <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased">
+      <div className="flex justify-between px-4 mx-auto max-w-screen-xl ">
+        <article className="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
+          <QuestionForm tokensList={tokensList} />
+        </article>
       </div>
     </main>
   );

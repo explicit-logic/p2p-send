@@ -2,8 +2,7 @@
 import { createElement, ElementType, Fragment, ReactElement, ReactNode } from 'react';
 
 // Types
-import type { Token, TokensList } from 'marked';
-import type { ParserTokens, Renderers, RenderersOptions } from './Markdown.types';
+import type { ParserTokens, Renderers, RenderersOptions } from './markdownRender.types';
 
 // Helpers
 import { getDefaultRenderers } from './defaultRenderers';
@@ -13,17 +12,12 @@ export function process(
   getRenders: (params: RenderersOptions) => Partial<Renderers> = () => ({}),
 )
 {
-  const baseURL = undefined;
-  const openLinksInNewTab = true;
   let id = 0;
 
   const renderersParams = {
-    baseURL,
     codespan,
     getId,
     h,
-    joinBase,
-    openLinksInNewTab,
     parse,
     unescape,
   };
@@ -83,17 +77,5 @@ const reHasEscapedHtml = RegExp(reEscapedHtml.source);
 
 function unescape(str = '') {
   return reHasEscapedHtml.test(str) ? str.replace(reEscapedHtml, (entity) => htmlUnescapes[entity] || '\'') : str;
-}
-
-function joinBase(path: string, base?: string) {
-  if (!base) {
-    return path;
-  }
-
-  try {
-    return new URL(path, base).href;
-  } catch {
-    return path;
-  }
 }
 

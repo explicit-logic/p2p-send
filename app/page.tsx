@@ -4,7 +4,7 @@ import TopBar from '@/components/molecules/TopBar';
 // import Link from 'next/link';
 
 // Lib
-import { getSlugs } from '@/lib/questionSlugs';
+import { getSlugs } from '@/lib/server/questionSlugs';
 
 export default async function Home() {
   const slugs = await getSlugs();
