@@ -3,9 +3,12 @@
 import { useCallback } from 'react';
 
 // Components
-import QuestionImage from '../components/QuestionImage';
-import QuestionCheckList from '../components/QuestionCheckList';
-import QuestionRadioList from '../components/QuestionRadioList';
+import TokenImage from '../tokenComponents/TokenImage';
+import MultipleResponse from '../questionComponents/MultipleResponse';
+import MultipleChoice from '../questionComponents/MultipleChoice';
+
+// Constants
+import { TYPES } from '@/constants/question';
 
 // Lib
 import { process } from '@/lib/client/markdownRender';
@@ -13,21 +16,27 @@ import { process } from '@/lib/client/markdownRender';
 // Types
 import type { Formik } from '../QuestionForm.types';
 import type { RenderHandler } from '@/lib/client/markdownRender/markdownRender.types';
-import type { TokensList } from 'marked';
 
 
-export function useQuestionRender(formik: Formik, tokensList: TokensList) {
+export function useQuestionRender(formik: Formik, { questions, tokens }: { questions: QuestionsList; tokens: TokensList }) {
   const render: RenderHandler = useCallback(({ getId, parse }) => ({
-    image: (token) => <QuestionImage key={getId()} token={token} />,
-    list: (token) => {
-      const { ordered } = token;
-      if (ordered) {
-        return <QuestionRadioList key={getId()} formik={formik} parse={parse} token={token} />;
+    image: (token) => <TokenImage key={getId()} token={token} />,
+    link: (token) => {
+      const { href, raw, tokens } = token;
+      if (raw !== 'Q') return <a key={getId()} href={href} target="_blank">{parse(tokens)}</a>;
+
+      const question = questions.find((question) => question.id === href);
+      if (!question) return null;
+
+      if (question.type === TYPES.MC) {
+        return <MultipleChoice key={question.id} formik={formik} parse={parse} question={question} />;
       }
 
-      return <QuestionCheckList key={getId()} formik={formik} parse={parse} token={token} />;
+      if (question.type === TYPES.MR) {
+        return <MultipleResponse key={question.id} formik={formik} parse={parse} question={question} />;
+      }
     },
-  }), [formik]);
+  }), [formik, questions]);
 
-  return process(tokensList, render);
+  return process(tokens, render);
 }

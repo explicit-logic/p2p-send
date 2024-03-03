@@ -5,19 +5,18 @@ import type { Parse } from '@/lib/client/markdownRender/markdownRender.types';
 export type Props = {
   formik: Formik;
   parse: Parse;
-  token: Tokens.List;
+  question: Questions.MultipleChoice;
 };
 
-export default function QuestionRadioList(props: Props) {
-  const { formik, parse, token } = props;
-  const time = new Date().getTime();
+export default function MultipleChoice(props: Props) {
+  const { formik, parse, question } = props;
 
   return (
     <fieldset>
-      {token.items.map((item, index) => {
-        const id = `${time}-${index}`;
-        const name = time.toString();
-        const value = index.toString();
+      {question.items.map((item, index) => {
+        const value = (index + 1).toString();
+        const id = `${question.id}-${value}`;
+        const name = question.id;
 
         return (
           <div key={id} className="flex items-center mb-4">

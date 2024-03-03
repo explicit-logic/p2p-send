@@ -5,25 +5,25 @@ import type { Parse } from '@/lib/client/markdownRender/markdownRender.types';
 export type Props = {
   formik: Formik;
   parse: Parse;
-  token: Tokens.List;
+  question: Questions.MultipleResponse;
 };
 
-export default function QuestionCheckList(props: Props) {
-  const { formik, parse, token } = props;
-  const time = new Date().getTime();
+export default function MultipleResponse(props: Props) {
+  const { formik, parse, question } = props;
 
   return (
     <fieldset>
-      {token.items.map((item, index) => {
-        const id = `${time}-${index}`;
-        const value = index.toString();
+      {question.items.map((item, index) => {
+        const value = (index + 1).toString();
+        const id = `${question.id}-${value}`;
+        const name = question.id;
 
         return (
           <div key={id} className="flex items-center mb-4">
             <input
               id={id}
               type="checkbox"
-              name={id}
+              name={name}
               onChange={formik.handleChange}
               value={value}
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"

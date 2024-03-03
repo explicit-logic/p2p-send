@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { FIELDS } from './constants';
 
 // Types
-import type { ViewProps, Values } from './HeroForm.types';
+import type { ViewProps, Values } from './IdentityForm.types';
 
 // Components
 import Button, { VARIANTS } from '@/components/atoms/Button';
@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({
   name: Yup.string().min(2).max(255).required(),
 });
 
-function HeroFormView(props: ViewProps) {
+function IdentityFormView(props: ViewProps) {
   const { onSubmit } = props;
 
   const initialValues: Values = {
@@ -78,4 +78,4 @@ function HeroFormView(props: ViewProps) {
   );
 }
 
-export default HeroFormView;
+export default IdentityFormView;

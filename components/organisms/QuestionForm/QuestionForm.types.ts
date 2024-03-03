@@ -6,13 +6,16 @@ export type Values = Record<string, string | boolean>;
 export type Formik = FormikContextType<Values>;
 
 export type ContainerProps = {
-  tokensList: TokensList;
+  questions: QuestionsList;
+  tokens: TokensList;
 };
 
 export type ViewProps = {
-  tokensList: TokensList;
-  goBack: () => void;
   formik: Formik;
+  goBack: () => void;
+  last: boolean;
+  questions: QuestionsList;
+  tokens: TokensList;
 };
 
 export type OnSubmit = FormikConfig<Values>['onSubmit'];

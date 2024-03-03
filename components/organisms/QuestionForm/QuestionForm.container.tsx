@@ -3,13 +3,11 @@
 import { useFormik } from 'formik';
 
 // Lib
+import { setAnswersBySlug } from '@/lib/client/answerStorage';
 import { getNextSlug, getPreviousSlug } from '@/lib/client/slugStorage';
 
 // Components
 import QuestionFormView from './QuestionForm.view';
-
-// Constants
-// import { FIELDS } from './constants';
 
 // Helpers
 import { getValidationSchema } from './helpers/getValidationSchema';
@@ -19,16 +17,19 @@ import { useRouter, useParams } from 'next/navigation';
 // import { useSearchParams } from 'next/navigation';
 
 // Types
-import type { ContainerProps } from './QuestionForm.types';
+import type { ContainerProps, Values } from './QuestionForm.types';
 
 function QuestionFormContainer(props: ContainerProps) {
-  const { tokensList } = props;
+  const { questions, tokens } = props;
 
   const { slug } = useParams<{ slug: string }>();
 
   const router = useRouter();
 
-  const validationSchema = getValidationSchema(/* tokensList */);
+  const validationSchema = getValidationSchema(questions);
+
+  const nextSlug = getNextSlug(slug);
+  const last = Boolean(!nextSlug);
 
   const formik = useFormik({
     initialValues: {},
@@ -44,17 +45,20 @@ function QuestionFormContainer(props: ContainerProps) {
     router.replace(`/questions/${previousSlug}`);
   }
 
-  function onSubmit(/* values: Values */) {
+  function onSubmit(values: Values) {
     // const room = searchParams.get('r');
 
-    const nextSlug = getNextSlug(slug);
+    setAnswersBySlug(slug, values);
 
-    if (!nextSlug) return;
-
-    router.replace(`/questions/${nextSlug}`);
+    if (last) {
+      sessionStorage.setItem('finished', 'true');
+      router.replace('/result');
+    } else {
+      router.replace(`/questions/${nextSlug}`);
+    }
   }
 
-  return <QuestionFormView formik={formik} goBack={goBack} tokensList={tokensList} />;
+  return <QuestionFormView formik={formik} goBack={goBack} questions={questions} last={last} tokens={tokens} />;
 }
 
 export default QuestionFormContainer;

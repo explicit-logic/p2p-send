@@ -7,7 +7,8 @@ import getConfig from 'next/config';
 
 import type { TokensList } from 'marked';
 
-import { walkTokens } from '../../plugins/walkTokens';
+import { extractQuestions } from './extractQuestions';
+import { walkTokens } from './walkTokens';
 
 const { serverRuntimeConfig } = getConfig();
 const { questionsDirectory }  = serverRuntimeConfig;
@@ -20,7 +21,7 @@ export async function getFile(slug: string) {
   return file;
 }
 
-export function parse({ markdown, slug }: { markdown: string, slug: string }): TokensList {
+export function parse({ markdown, slug }: { markdown: string, slug: string }): { questions: QuestionsList, tokens: TokensList } {
   const marked = new Marked();
 
   const tokens = marked.lexer(markdown, {
@@ -29,6 +30,7 @@ export function parse({ markdown, slug }: { markdown: string, slug: string }): T
   });
 
   walkTokens({ slug, tokens });
+  const questions = extractQuestions(tokens);
 
-  return tokens;
+  return { questions, tokens };
 }

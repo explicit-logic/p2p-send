@@ -1,9 +1,13 @@
 'use client';
+// Modules
+import { useEffect } from 'react';
+
 // Lib
+import { setIdentity } from '@/lib/client/identityStorage';
 import { setSlugs } from '@/lib/client/slugStorage';
 
 // Components
-import HeroFormView from './HeroForm.view';
+import IdentityFormView from './IdentityForm.view';
 
 // Constants
 // import { FIELDS } from './constants';
@@ -16,16 +20,26 @@ import { useRouter } from 'next/navigation';
 // import { useSearchParams } from 'next/navigation';
 
 // Types
-import type { ContainerProps } from './HeroForm.types';
+import type { ContainerProps, Values } from './IdentityForm.types';
 
-function HeroFormContainer(props: ContainerProps) {
+function IdentityFormContainer(props: ContainerProps) {
   const { slugs } = props;
 
   const router = useRouter();
   // const searchParams = useSearchParams();
 
-  function onSubmit(/* values: Values */) {
+  useEffect(() => {
+    const finished = sessionStorage.getItem('finished');
+
+    if (finished) {
+      router.replace('/result');
+    }
+  }, [router]);
+
+  function onSubmit(values: Values) {
     if (!slugs.length) return;
+
+    setIdentity(values);
 
     // const room = searchParams.get('r');
     const randomSlugs = shuffle(slugs);
@@ -35,7 +49,7 @@ function HeroFormContainer(props: ContainerProps) {
     router.replace(`/questions/${slug}`);
   }
 
-  return <HeroFormView onSubmit={onSubmit} />;
+  return <IdentityFormView onSubmit={onSubmit} />;
 }
 
-export default HeroFormContainer;
+export default IdentityFormContainer;

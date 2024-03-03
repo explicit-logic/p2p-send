@@ -1,11 +1,12 @@
 // Modules
 import * as yup from 'yup';
 
-// Types
-// import type { TokensList } from 'marked';
+export function getValidationSchema(questions: QuestionsList) {
+  const schema: yup.ObjectShape = {};
 
-export function getValidationSchema(/* tokensList: TokensList */) {
-  const schema = {};
+  for (const question of questions) {
+    schema[question.id] = yup.mixed().required();
+  }
 
   return yup.object().shape(schema);
 }
