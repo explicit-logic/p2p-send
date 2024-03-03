@@ -2,9 +2,7 @@ declare module 'next/config' {
   type ConfigTypes = () => {
     basePath: string;
     // publicRuntimeConfig: {};
-    serverRuntimeConfig: {
-      questionsDirectory: string;
-    };
+    // serverRuntimeConfig: {};
   };
 
   declare const getConfig: ConfigTypes;

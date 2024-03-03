@@ -16,7 +16,7 @@ import IdentityFormView from './IdentityForm.view';
 import { shuffle } from '@/helpers/shuffle';
 
 // Hooks
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 // import { useSearchParams } from 'next/navigation';
 
 // Types
@@ -24,6 +24,8 @@ import type { ContainerProps, Values } from './IdentityForm.types';
 
 function IdentityFormContainer(props: ContainerProps) {
   const { slugs } = props;
+
+  const { locale } = useParams<{ locale: string }>();
 
   const router = useRouter();
   // const searchParams = useSearchParams();
@@ -46,7 +48,7 @@ function IdentityFormContainer(props: ContainerProps) {
     setSlugs(randomSlugs);
     const [slug] = randomSlugs;
 
-    router.replace(`/questions/${slug}`);
+    router.replace(`/${locale}/questions/${slug}`);
   }
 
   return <IdentityFormView onSubmit={onSubmit} />;

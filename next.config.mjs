@@ -1,11 +1,17 @@
 import path from 'node:path';
+import createNextIntlPlugin from 'next-intl/plugin';
 
-import config from './config.mjs';
+// import quizConfig from './data/quiz.json' with { type: 'json' };
+import { getQuizConfig } from './getQuizConfig.mjs';
+
+const quizConfig = getQuizConfig();
+
+const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   serverRuntimeConfig: {
-    questionsDirectory: path.join(process.cwd(), './data/questions'),
+    dataDirectory: path.join(process.cwd(), './data'),
   },
   /**
    * Enable static exports for the App Router.
@@ -18,7 +24,7 @@ const nextConfig = {
    *
    * @see https://nextjs.org/docs/app/api-reference/next-config-js/basePath
    */
-  basePath: config.basePath,
+  basePath: quizConfig.basePath,
   /**
    * Disable server-based image optimization. Next.js does not support
    * dynamic features with static exports.
@@ -30,4 +36,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

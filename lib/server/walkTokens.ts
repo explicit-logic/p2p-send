@@ -1,6 +1,7 @@
-import config from '@/config.mjs';
+import { getQuizConfig } from '@/getQuizConfig.mjs';
 
-export function walkTokens({ slug, tokens }: { slug: string, tokens: TokensList }) {
+export function walkTokens({ locale, slug, tokens }: { locale: string, slug: string, tokens: TokensList }) {
+  const quizConfig = getQuizConfig();
 
   function walk(_tokens: TokensList = tokens) {
     for (let idx = 0; idx < _tokens.length; idx++) {
@@ -28,7 +29,7 @@ export function walkTokens({ slug, tokens }: { slug: string, tokens: TokensList 
     if (!token.href.startsWith('./')) { return; }
 
     const fileName = (token.href ?? '').replace('./', '');
-    token.href = `${config.basePath ?? ''}/images/${slug}/${fileName}`;
+    token.href = `${quizConfig.basePath ?? ''}/images/${locale}/${slug}/${fileName}`;
   }
 
   function walkParagraph(token: Tokens.Paragraph, swap: (newToken: Token) => void) {

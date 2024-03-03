@@ -2,6 +2,7 @@
 
 // Modules
 import { memo } from 'react';
+import { useTranslations } from 'next-intl';
 
 // Hooks
 import { useQuestionRender } from './hooks/useQuestionRender';
@@ -15,6 +16,8 @@ import RightArrow from '@/components/atoms/RightArrow';
 
 function QuestionFormView(props: ViewProps) {
   const { formik, goBack, last, questions, tokens } = props;
+
+  const t = useTranslations('Question');
 
   const component = useQuestionRender(formik, { questions, tokens });
   const buttonText = last ? 'Finish' : 'Next Question';
@@ -30,7 +33,7 @@ function QuestionFormView(props: ViewProps) {
           variant={VARIANTS.alternative}
           onClick={goBack}
         >
-            Go Back
+          {t('back')}
         </Button>
         <Button
           type="submit"

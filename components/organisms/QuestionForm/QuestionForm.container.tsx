@@ -22,7 +22,7 @@ import type { ContainerProps, Values } from './QuestionForm.types';
 function QuestionFormContainer(props: ContainerProps) {
   const { questions, tokens } = props;
 
-  const { slug } = useParams<{ slug: string }>();
+  const { locale, slug } = useParams<{ locale: string, slug: string }>();
 
   const router = useRouter();
 
@@ -42,7 +42,7 @@ function QuestionFormContainer(props: ContainerProps) {
 
     if (!previousSlug) return;
 
-    router.replace(`/questions/${previousSlug}`);
+    router.replace(`/${locale}/questions/${previousSlug}`);
   }
 
   function onSubmit(values: Values) {
@@ -52,13 +52,15 @@ function QuestionFormContainer(props: ContainerProps) {
 
     if (last) {
       sessionStorage.setItem('finished', 'true');
-      router.replace('/result');
+      router.replace(`/${locale}/result`);
     } else {
-      router.replace(`/questions/${nextSlug}`);
+      router.replace(`/${locale}/questions/${nextSlug}`);
     }
   }
 
-  return <QuestionFormView formik={formik} goBack={goBack} questions={questions} last={last} tokens={tokens} />;
+  return (
+    <QuestionFormView formik={formik} goBack={goBack} questions={questions} last={last} tokens={tokens} />
+  );
 }
 
 export default QuestionFormContainer;

@@ -1,0 +1,17 @@
+{
+  "Metadata": {
+    "title": {
+      "default": "Quiz",
+      "template": "%s | Quiz"
+    }
+  },
+  "Home": {
+    "title": "Quiz",
+    "headline": "Simple Quiz",
+    "caption": "Take this quiz to test your knowledge"
+  },
+  "Question": {
+    "next": "Next question",
+    "back": "Go Back"
+  }
+}

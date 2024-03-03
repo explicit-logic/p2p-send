@@ -1,48 +1,57 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
-import config from '../next.config.mjs';
-
-const { serverRuntimeConfig } = config ?? {};
-const { questionsDirectory }  = serverRuntimeConfig;
+const dataDirectory  = './data';
 
 const fsPromises = fs.promises;
 const targetDir = './public/images';
 
-async function copyImagesToPublic(images, slug) {
+/** @type {(images: string[], locale: string, slug: string) => Promise<void>} */
+async function copyImagesToPublic(images, locale, slug) {
   for (const image of images) {
     await fsPromises.copyFile(
-      `${questionsDirectory}/${slug}/${image}`,
-      `${targetDir}/${slug}/${image}`
+      path.join(process.cwd(), dataDirectory, locale, slug, image),
+      path.join(process.cwd(), targetDir, locale, slug, image),
     );
   }
 }
 
 async function createPostImageFoldersForCopy() {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  if (!fs.existsSync(questionsDirectory)) return;
-  // Get every post folder: post-one, post-two etc.
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const questionSlugs = await fsPromises.readdir(questionsDirectory);
+  if (!fs.existsSync(dataDirectory)) return;
 
-  for (const slug of questionSlugs) {
-    const allowedImageFileExtensions = ['.png', '.jpg', '.jpeg', '.gif'];
+  const dataPath = path.join(process.cwd(), dataDirectory);
+  const locales = await getSubDirectoryNames(dataPath);
 
-    // Read all files inside current question folder
-    const questionDirFiles = await fsPromises.readdir(`${questionsDirectory}/${slug}`);
+  for (const locale of locales) {
+    const questionsPath = path.join(dataPath, locale);
+    const slugs = await getSubDirectoryNames(questionsPath);
 
-    // Filter out files with allowed file extension (images)
-    const images = questionDirFiles.filter(file =>
-      allowedImageFileExtensions.includes(path.extname(file)),
-    );
+    for (const slug of slugs) {
+      const allowedImageFileExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
 
-    if (images.length) {
-      // Create a folder for images of this post inside public
-      await fsPromises.mkdir(`${targetDir}/${slug}`);
+      // Read all files inside current question folder
+      const questionDirFiles = await fsPromises.readdir(path.join(questionsPath, slug));
 
-      await copyImagesToPublic(images, slug);
+      // Filter out files with allowed file extension (images)
+      const images = questionDirFiles.filter(file =>
+        allowedImageFileExtensions.includes(path.extname(file)),
+      );
+
+      if (images.length) {
+        // Create a folder for images of this post inside public
+        await fsPromises.mkdir(path.join(process.cwd(), targetDir, locale, slug), { recursive: true });
+
+        await copyImagesToPublic(images, locale, slug);
+      }
     }
   }
+}
+/** @type {(path: string) => Promise<string[]>} */
+async function getSubDirectoryNames(path) {
+  const dataContent = await fsPromises.readdir(path, { withFileTypes: true });
+  const names = dataContent.filter((dirent) => dirent.isDirectory()).map((dirent) => dirent.name).sort();
+
+  return names;
 }
 
 if (fs.existsSync(targetDir)) {

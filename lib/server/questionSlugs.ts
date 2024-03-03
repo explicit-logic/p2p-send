@@ -1,11 +1,8 @@
 import fs from 'node:fs/promises';
-import getConfig from 'next/config';
+import path from 'node:path';
 
-const { serverRuntimeConfig } = getConfig();
-const { questionsDirectory }  = serverRuntimeConfig;
-
-export async function getSlugs() {
-  const dirContent = await fs.readdir(questionsDirectory, { withFileTypes: true });
+export async function getSlugs(locale: string) {
+  const dirContent = await fs.readdir(path.join(process.cwd(), './data', locale), { withFileTypes: true });
   const directories = dirContent
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name)

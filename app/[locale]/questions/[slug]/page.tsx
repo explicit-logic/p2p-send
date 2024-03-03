@@ -8,19 +8,19 @@ import { getSlugs } from '@/lib/server/questionSlugs';
 // Components
 const QuestionForm = dynamic(() => import('@/components/organisms/QuestionForm'), { ssr: false });
 
-export async function generateStaticParams() {
-  const slugs = await getSlugs();
+export async function generateStaticParams({ params: { locale } }: { params: { locale: string } }) {
+  const slugs = await getSlugs(locale);
   const params = slugs.map((slug) => ({ slug }));
 
   return params;
 }
 
 export async function generateMetadata({
-  params: { slug },
+  params: { locale, slug },
 }: {
-  params: { slug: string }
+  params: { locale: string, slug: string }
 }) {
-  const file: { data: Partial<{ title: string }> } = await getFile(slug);
+  const file: { data: Partial<{ title: string }> } = await getFile(locale, slug);
   const { data } = file;
   const { title } = data;
 
@@ -31,14 +31,14 @@ export async function generateMetadata({
   }
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const { slug } = params;
-  const file = await getFile(slug);
+export default async function Page({ params }: { params: { locale: string, slug: string } }) {
+  const { locale, slug } = params;
+  const file = await getFile(locale, slug);
   const { content: markdown } = file;
   const {
     questions,
     tokens,
-  } = parse({ markdown, slug });
+  } = parse({ locale, markdown, slug });
 
   return (
     <main className="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased">
