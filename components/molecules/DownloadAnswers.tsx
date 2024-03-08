@@ -1,4 +1,6 @@
 'use client';
+// Modules
+import { useTranslations } from 'next-intl';
 
 // Components
 import Button, { VARIANTS } from '@/components/atoms/Button';
@@ -10,7 +12,9 @@ import { downloadJson } from '@/helpers/downloadJson';
 import { getAllAnswers } from '@/lib/client/answerStorage';
 import { getIdentity } from '@/lib/client/identityStorage';
 
-function Result() {
+function DownloadAnswers() {
+  const t = useTranslations('Result');
+
   const onDownload = () => {
     downloadJson({
       identity: getIdentity(),
@@ -21,7 +25,7 @@ function Result() {
   return (
     <div>
       <p className="mb-4 font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-300">
-        Click here to download your answers:
+        {t('download.caption')}
       </p>
       <p>
         <Button
@@ -29,11 +33,11 @@ function Result() {
           variant={VARIANTS.default}
           onClick={onDownload}
         >
-          Download
+          {t('download.button')}
         </Button>
       </p>
     </div>
   );
 }
 
-export default Result;
+export default DownloadAnswers;

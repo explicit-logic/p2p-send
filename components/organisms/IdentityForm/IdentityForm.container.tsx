@@ -34,9 +34,9 @@ function IdentityFormContainer(props: ContainerProps) {
     const finished = sessionStorage.getItem('finished');
 
     if (finished) {
-      router.replace('/result');
+      router.replace(`/${locale}/result`);
     }
-  }, [router]);
+  }, [locale, router]);
 
   function onSubmit(values: Values) {
     if (!slugs.length) return;

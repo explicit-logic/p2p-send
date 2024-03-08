@@ -1,1 +1,1 @@
-# Simple Quiz - Web < English >
+# Next.js Quiz - Web < En, Ru >

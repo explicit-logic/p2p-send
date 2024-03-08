@@ -1,7 +1,7 @@
 import type { FormikContextType, FormikConfig } from 'formik';
 import type { TokensList } from 'marked';
 
-export type Values = Record<string, string | boolean>;
+export type Values = Record<string, string | string[]>;
 
 export type Formik = FormikContextType<Values>;
 

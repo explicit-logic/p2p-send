@@ -20,7 +20,7 @@ function QuestionFormView(props: ViewProps) {
   const t = useTranslations('Question');
 
   const component = useQuestionRender(formik, { questions, tokens });
-  const buttonText = last ? 'Finish' : 'Next Question';
+  const buttonText = last ? t('finish') : t('next');
 
   return (
     <form onSubmit={formik.handleSubmit}>
