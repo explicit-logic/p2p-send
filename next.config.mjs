@@ -2,7 +2,7 @@ import path from 'node:path';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 // import quizConfig from './data/quiz.json' with { type: 'json' };
-import { getQuizConfig } from './getQuizConfig.mjs';
+import { getQuizConfig } from './lib/server/getQuizConfig.mjs';
 
 const quizConfig = getQuizConfig();
 

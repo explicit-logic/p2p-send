@@ -6,6 +6,9 @@ import { useEffect } from 'react';
 import { setIdentity } from '@/lib/client/identityStorage';
 import { setSlugs } from '@/lib/client/slugStorage';
 
+// Config
+import { getQuizConfig } from '@/lib/client/getQuizConfig';
+
 // Components
 import IdentityFormView from './IdentityForm.view';
 
@@ -13,7 +16,9 @@ import IdentityFormView from './IdentityForm.view';
 // import { FIELDS } from './constants';
 
 // Helpers
-import { shuffle } from '@/helpers/shuffle';
+import { getOrderHandler } from '@/helpers/getOrderHandler';
+import { getInitialValues } from './helpers/getInitialValues';
+import { getValidationSchema } from './helpers/getValidationSchema';
 
 // Hooks
 import { useParams, useRouter } from 'next/navigation';
@@ -22,10 +27,16 @@ import { useParams, useRouter } from 'next/navigation';
 // Types
 import type { ContainerProps, Values } from './IdentityForm.types';
 
+const config = getQuizConfig();
+const orderHandler = getOrderHandler(config.order);
+
 function IdentityFormContainer(props: ContainerProps) {
   const { slugs } = props;
 
   const { locale } = useParams<{ locale: string }>();
+
+  const initialValues = getInitialValues(config.fields);
+  const validationSchema = getValidationSchema(config.fields);
 
   const router = useRouter();
   // const searchParams = useSearchParams();
@@ -44,14 +55,21 @@ function IdentityFormContainer(props: ContainerProps) {
     setIdentity(values);
 
     // const room = searchParams.get('r');
-    const randomSlugs = shuffle(slugs);
-    setSlugs(randomSlugs);
-    const [slug] = randomSlugs;
+    const orderedSlugs = orderHandler(slugs);
+    setSlugs(orderedSlugs);
+    const [slug] = orderedSlugs;
 
     router.replace(`/${locale}/questions/${slug}`);
   }
 
-  return <IdentityFormView onSubmit={onSubmit} />;
+  return (
+    <IdentityFormView
+      initialValues={initialValues}
+      fields={config.fields}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    />
+  );
 }
 
 export default IdentityFormContainer;

@@ -1,7 +1,9 @@
 import type { FormikConfig } from 'formik';
+import type { ObjectSchema } from 'yup';
+import type { QuizConfig } from '@/data/quiz.types';
 
 export type Values = {
-  name: string;
+  name?: string;
   group?: string;
 };
 
@@ -10,6 +12,9 @@ export type ContainerProps = {
 };
 
 export type ViewProps = {
+  fields: QuizConfig['fields'];
+  initialValues: Values;
+  validationSchema: ObjectSchema<{ [x: string]: unknown; }>;
   onSubmit: FormikConfig<Values>['onSubmit'];
 };
 

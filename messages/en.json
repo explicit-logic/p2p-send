@@ -10,6 +10,7 @@
     "headline": "Next.js Quiz",
     "caption": "Take this quiz to test your knowledge",
     "start": "Let’s start",
+    "loading": "Loading...",
     "fields": {
       "name": {
         "label": "Your name",
@@ -22,6 +23,7 @@
     }
   },
   "Question": {
+    "loading": "Loading...",
     "next": "Next question",
     "back": "Go Back",
     "finish": "Finish"

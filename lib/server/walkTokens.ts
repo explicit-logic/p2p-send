@@ -1,4 +1,4 @@
-import { getQuizConfig } from '@/getQuizConfig.mjs';
+import { getQuizConfig } from '@/lib/server/getQuizConfig.mjs';
 
 export function walkTokens({ locale, slug, tokens }: { locale: string, slug: string, tokens: TokensList }) {
   const quizConfig = getQuizConfig();

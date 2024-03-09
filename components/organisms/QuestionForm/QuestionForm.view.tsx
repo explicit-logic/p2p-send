@@ -5,6 +5,7 @@ import { memo } from 'react';
 import { useTranslations } from 'next-intl';
 
 // Hooks
+import { useLoading } from '@/hooks/useLoading';
 import { useQuestionRender } from './hooks/useQuestionRender';
 
 // Types
@@ -12,15 +13,31 @@ import type { ViewProps } from './QuestionForm.types';
 
 // Components
 import Button, { VARIANTS } from '@/components/atoms/Button';
+import LoadingIcon from '@/components/atoms/LoadingIcon';
 import RightArrow from '@/components/atoms/RightArrow';
+
+const getNextButtonContent = (t: (t: string) => string, { last, loading }: { last: boolean, loading: boolean }) => {
+  const buttonText = last ? t('finish') : t('next');
+
+  if (loading) {
+    return (<><LoadingIcon />{t('loading')}</>);
+  }
+
+  return (
+    <>
+      {buttonText}
+      {!last && <RightArrow className="ml-2 -mr-1 w-5 h-5" />}
+    </>
+  );
+};
 
 function QuestionFormView(props: ViewProps) {
   const { formik, goBack, last, questions, tokens } = props;
 
+  const loading = useLoading();
   const t = useTranslations('Question');
 
   const component = useQuestionRender(formik, { questions, tokens });
-  const buttonText = last ? t('finish') : t('next');
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -37,11 +54,10 @@ function QuestionFormView(props: ViewProps) {
         </Button>
         <Button
           type="submit"
-          disabled={(!formik.isValid || !formik.dirty)}
+          disabled={(loading || !formik.isValid || !formik.dirty)}
           variant={VARIANTS.default}
         >
-          {buttonText}
-          {!last && <RightArrow className="ml-2 -mr-1 w-5 h-5" />}
+          {getNextButtonContent(t, { last, loading })}
         </Button>
       </div>
     </form>
