@@ -1,9 +1,14 @@
 {
   "Metadata": {
+    "applicationName": "Next.js Quiz",
+    "keywords": "Опрос, Next.js, JS, Тес, Вопросы",
+    "creator": "Богдан",
+    "publisher": "",
     "title": {
-      "default": "Опрос",
-      "template": "%s | Опрос"
-    }
+      "default": "Next.js Вопросы",
+      "template": "%s | Next.js Вопросы"
+    },
+    "description": "Пройдите тест чтобы проверить свои знания NEXT.js"
   },
   "Home": {
     "title": "Nex.js Опрос",

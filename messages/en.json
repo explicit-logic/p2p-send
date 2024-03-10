@@ -1,9 +1,14 @@
 {
   "Metadata": {
+    "applicationName": "Next.js Quiz",
+    "keywords": "Quiz, Next.js, JS, Test, Questions",
+    "creator": "Bohdan",
+    "publisher": "",
     "title": {
-      "default": "Quiz",
-      "template": "%s | Quiz"
-    }
+      "default": "Next.js Quiz",
+      "template": "%s | Next.js Quiz"
+    },
+    "description": "Take this Quiz to test your knowledge of NEXT.js"
   },
   "Home": {
     "title": "Nex.js Quiz",

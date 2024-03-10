@@ -21,11 +21,22 @@ export async function generateMetadata({params: { locale }}: Readonly<{
   const t = await getTranslations({locale, namespace: 'Metadata'});
 
   return {
+    generator: 'Next.js',
+    applicationName: t('applicationName'),
+    referrer: 'origin-when-cross-origin',
+    keywords: t('keywords'),
+    creator: t('creator'),
+    publisher: t('publisher'),
     title: {
       default: t('title.default'),
       template: t('title.template'),
     },
-    description: '',
+    description: t('description'),
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
   };
 }
 
